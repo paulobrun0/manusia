@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agente Autônomo - Interface Web</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: #e6fffa;
+            border: 2px solid #38b2ac;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #38b2ac;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .tool-category {
+            margin-bottom: 20px;
+        }
+
+        .tool-category h4 {
+            color: #667eea;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tool-list {
+            list-style: none;
+        }
+
+        .tool-item {
+            padding: 8px 12px;
+            margin: 5px 0;
+            background: #f7fafc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            border-left: 3px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .tool-item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chat-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h2 {
+            color: #4a5568;
+            font-size: 1.5rem;
+        }
+
+        .chat-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px;
+            border-radius: 15px;
+            word-wrap: break-word;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .message.agent {
+            align-self: flex-start;
+            background: #f7fafc;
+            color: #4a5568;
+            border: 1px solid #e2e8f0;
+        }
+
+        .message-meta {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .send-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4a5568;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #c6f6d5;
+            color: #2d7d32;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .chat-container {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-robot"></i> Agente Autônomo</h1>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span id="status-text">Conectando...</span>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <h3><i class="fas fa-tools"></i> Ferramentas Disponíveis</h3>
+            <div id="tools-container">
+                <div class="loading"></div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2><i class="fas fa-comments"></i> Chat com o Agente</h2>
+                    <div class="chat-controls">
+                        <button class="btn btn-secondary" onclick="clearChat()">
+                            <i class="fas fa-trash"></i> Limpar
+                        </button>
+                        <button class="btn btn-secondary" onclick="saveState()">
+                            <i class="fas fa-save"></i> Salvar
+                        </button>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message agent">
+                        <div>Olá! Sou seu agente autônomo. Posso ajudá-lo com diversas tarefas como manipulação de arquivos, navegação web, pesquisas, monitoramento de sistema e muito mais. Como posso ajudá-lo hoje?</div>
+                        <div class="message-meta">Agente • agora</div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Digite sua mensagem..." onkeypress="handleKeyPress(event)">
+                    <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-grid" id="stats-grid">
+                <!-- Stats serão carregadas dinamicamente -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let isLoading = false;
+
+        // Inicializar aplicação
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAgentStatus();
+            loadTools();
+            loadStats();
+        });
+
+        // Verificar status do agente
+        async function checkAgentStatus() {
+            try {
+                const response = await fetch('/api/agent/health');
+                const data = await response.json();
+                
+                const statusText = document.getElementById('status-text');
+                if (data.success && data.agent_available) {
+                    statusText.textContent = 'Online';
+                    statusText.parentElement.style.background = '#c6f6d5';
+                    statusText.parentElement.style.borderColor = '#38a169';
+                } else {
+                    statusText.textContent = 'Modo Simulação';
+                    statusText.parentElement.style.background = '#fed7d7';
+                    statusText.parentElement.style.borderColor = '#e53e3e';
+                }
+            } catch (error) {
+                const statusText = document.getElementById('status-text');
+                statusText.textContent = 'Offline';
+                statusText.parentElement.style.background = '#fed7d7';
+                statusText.parentElement.style.borderColor = '#e53e3e';
+            }
+        }
+
+        // Carregar ferramentas disponíveis
+        async function loadTools() {
+            try {
+                const response = await fetch('/api/agent/tools');
+                const data = await response.json();
+                
+                const container = document.getElementById('tools-container');
+                
+                if (data.success) {
+                    container.innerHTML = '';
+                    
+                    for (const [category, tools] of Object.entries(data.tools.categories)) {
+                        const categoryDiv = document.createElement('div');
+                        categoryDiv.className = 'tool-category';
+                        
+                        categoryDiv.innerHTML = `
+                            <h4>${category.replace('_', ' ')}</h4>
+                            <ul class="tool-list">
+                                ${tools.map(tool => `
+                                    <li class="tool-item" title="${tool.description}">
+                                        ${tool.name}
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        `;
+                        
+                        container.appendChild(categoryDiv);
+                    }
+                } else {
+                    container.innerHTML = '<div class="error">Erro ao carregar ferramentas</div>';
+                }
+            } catch (error) {
+                document.getElementById('tools-container').innerHTML = '<div class="error">Erro de conexão</div>';
+            }
+        }
+
+        // Carregar estatísticas
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/agent/status');
+                const data = await response.json();
+                
+                const statsGrid = document.getElementById('stats-grid');
+                
+                if (data.success) {
+                    const stats = data.status;
+                    
+                    statsGrid.innerHTML = `
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-tools"></i></div>
+                            <div class="stat-value">${stats.tools.registered}</div>
+                            <div class="stat-label">Ferramentas Registradas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-memory"></i></div>
+                            <div class="stat-value">${stats.memory.total_entries}</div>
+                            <div class="stat-label">Entradas de Memória</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                            <div class="stat-value">${Math.round(stats.uptime_seconds / 60)}m</div>
+                            <div class="stat-label">Tempo Ativo</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                            <div class="stat-value">${stats.reasoning.total_tasks}</div>
+                            <div class="stat-label">Tarefas Processadas</div>
+                        </div>
+                    `;
+                } else {
+                    statsGrid.innerHTML = '<div class="error">Erro ao carregar estatísticas</div>';
+                }
+            } catch (error) {
+                document.getElementById('stats-grid').innerHTML = '<div class="error">Erro de conexão</div>';
+            }
+        }
+
+        // Enviar mensagem
+        async function sendMessage() {
+            if (isLoading) return;
+            
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Adicionar mensagem do usuário
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Mostrar loading
+            isLoading = true;
+            const sendBtn = document.getElementById('send-btn');
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<div class="loading"></div>';
+            
+            try {
+                const response = await fetch('/api/agent/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addMessage(data.response, 'agent', data.mode);
+                } else {
+                    addMessage(`Erro: ${data.error}`, 'agent', 'error');
+                }
+            } catch (error) {
+                addMessage('Erro de conexão com o servidor', 'agent', 'error');
+            } finally {
+                isLoading = false;
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+            }
+        }
+
+        // Adicionar mensagem ao chat
+        function addMessage(content, sender, mode = null) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            
+            let modeIndicator = '';
+            if (mode === 'simulation') {
+                modeIndicator = ' • Simulação';
+            } else if (mode === 'error') {
+                modeIndicator = ' • Erro';
+            }
+            
+            messageDiv.innerHTML = `
+                <div>${content}</div>
+                <div class="message-meta">${sender === 'user' ? 'Você' : 'Agente'} • ${timeStr}${modeIndicator}</div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Manipular tecla Enter
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        // Limpar chat
+        function clearChat() {
+            const messagesContainer = document.getElementById('chat-messages');
+            messagesContainer.innerHTML = `
+                <div class="message agent">
+                    <div>Chat limpo. Como posso ajudá-lo?</div>
+                    <div class="message-meta">Agente • agora</div>
+                </div>
+            `;
+        }
+
+        // Salvar estado
+        async function saveState() {
+            try {
+                const response = await fetch('/api/agent/save', { method: 'POST' });
+                const data = await response.json();
+                
+                if (data.success) {
+                    addMessage('Estado salvo com sucesso!', 'agent');
+                } else {
+                    addMessage(`Erro ao salvar estado: ${data.error}`, 'agent', 'error');
+                }
+            } catch (error) {
+                addMessage('Erro de conexão ao salvar estado', 'agent', 'error');
+            }
+        }
+
+        // Atualizar stats periodicamente
+        setInterval(() => {
+            checkAgentStatus();
+            loadStats();
+        }, 30000); // A cada 30 segundos
+    </script>
+</body>
+</html>
+

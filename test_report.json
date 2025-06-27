@@ -1,0 +1,222 @@
+{
+  "summary": {
+    "total_tests": 30,
+    "passed_tests": 23,
+    "failed_tests": 7,
+    "success_rate": 76.66666666666667,
+    "total_time": 4.110881,
+    "timestamp": "2025-06-26T19:04:08.632597"
+  },
+  "test_results": [
+    {
+      "test_name": "Inicialização do Agente",
+      "success": true,
+      "details": "Agente inicializado com 37 ferramentas",
+      "execution_time": 4.291534423828125e-05,
+      "timestamp": "2025-06-26T19:04:04.523654"
+    },
+    {
+      "test_name": "Shell - execute_command",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.000972747802734375,
+      "timestamp": "2025-06-26T19:04:04.524670"
+    },
+    {
+      "test_name": "Shell - list_directory",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 5.0067901611328125e-05,
+      "timestamp": "2025-06-26T19:04:04.524752"
+    },
+    {
+      "test_name": "Shell - create_directory",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.00011754035949707031,
+      "timestamp": "2025-06-26T19:04:04.524884"
+    },
+    {
+      "test_name": "Shell - write_file",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.00011515617370605469,
+      "timestamp": "2025-06-26T19:04:04.525019"
+    },
+    {
+      "test_name": "Shell - read_file",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 4.506111145019531e-05,
+      "timestamp": "2025-06-26T19:04:04.525082"
+    },
+    {
+      "test_name": "Shell - get_file_info",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 3.933906555175781e-05,
+      "timestamp": "2025-06-26T19:04:04.525136"
+    },
+    {
+      "test_name": "Shell - delete_file_or_directory",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 4.220008850097656e-05,
+      "timestamp": "2025-06-26T19:04:04.525192"
+    },
+    {
+      "test_name": "Shell - delete_file_or_directory",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 8.344650268554688e-05,
+      "timestamp": "2025-06-26T19:04:04.525292"
+    },
+    {
+      "test_name": "FileManager - create_file_with_content",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.00016260147094726562,
+      "timestamp": "2025-06-26T19:04:04.525482"
+    },
+    {
+      "test_name": "FileManager - edit_file_content",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.00018310546875,
+      "timestamp": "2025-06-26T19:04:04.525683"
+    },
+    {
+      "test_name": "FileManager - search_in_files",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.00032329559326171875,
+      "timestamp": "2025-06-26T19:04:04.526023"
+    },
+    {
+      "test_name": "FileManager - get_file_metadata",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.0025224685668945312,
+      "timestamp": "2025-06-26T19:04:04.528566"
+    },
+    {
+      "test_name": "FileManager - calculate_file_hash",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.00013756752014160156,
+      "timestamp": "2025-06-26T19:04:04.528726"
+    },
+    {
+      "test_name": "SystemMonitor - get_system_info",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.027049779891967773,
+      "timestamp": "2025-06-26T19:04:04.555806"
+    },
+    {
+      "test_name": "SystemMonitor - get_cpu_info",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 2.0017669200897217,
+      "timestamp": "2025-06-26T19:04:06.557612"
+    },
+    {
+      "test_name": "SystemMonitor - get_memory_info",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.00025272369384765625,
+      "timestamp": "2025-06-26T19:04:06.557902"
+    },
+    {
+      "test_name": "SystemMonitor - get_disk_info",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.0006504058837890625,
+      "timestamp": "2025-06-26T19:04:06.558572"
+    },
+    {
+      "test_name": "SystemMonitor - get_process_list",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.021755218505859375,
+      "timestamp": "2025-06-26T19:04:06.580352"
+    },
+    {
+      "test_name": "SystemMonitor - get_system_performance_summary",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 1.0054922103881836,
+      "timestamp": "2025-06-26T19:04:07.585878"
+    },
+    {
+      "test_name": "Messaging - send_message",
+      "success": false,
+      "details": "Parâmetro obrigatório 'content' não fornecido",
+      "execution_time": 1.6927719116210938e-05,
+      "timestamp": "2025-06-26T19:04:07.585956"
+    },
+    {
+      "test_name": "Messaging - send_success_message",
+      "success": false,
+      "details": "Parâmetro obrigatório 'content' não fornecido",
+      "execution_time": 8.58306884765625e-06,
+      "timestamp": "2025-06-26T19:04:07.585979"
+    },
+    {
+      "test_name": "Messaging - send_warning_message",
+      "success": false,
+      "details": "Parâmetro obrigatório 'content' não fornecido",
+      "execution_time": 6.9141387939453125e-06,
+      "timestamp": "2025-06-26T19:04:07.585997"
+    },
+    {
+      "test_name": "Messaging - send_error_message",
+      "success": false,
+      "details": "Parâmetro obrigatório 'content' não fornecido",
+      "execution_time": 1.4781951904296875e-05,
+      "timestamp": "2025-06-26T19:04:07.586034"
+    },
+    {
+      "test_name": "Messaging - send_progress_update",
+      "success": false,
+      "details": "Parâmetro obrigatório 'task_name' não fornecido",
+      "execution_time": 9.298324584960938e-06,
+      "timestamp": "2025-06-26T19:04:07.586077"
+    },
+    {
+      "test_name": "WebNavigation - take_screenshot",
+      "success": false,
+      "details": "WebNavigationModule.take_screenshot() got an unexpected keyword argument 'save_path'",
+      "execution_time": 2.86102294921875e-05,
+      "timestamp": "2025-06-26T19:04:07.586152"
+    },
+    {
+      "test_name": "Search - get_search_suggestions",
+      "success": true,
+      "details": "Executado com sucesso",
+      "execution_time": 0.04094886779785156,
+      "timestamp": "2025-06-26T19:04:07.627126"
+    },
+    {
+      "test_name": "Sistema de Memória",
+      "success": false,
+      "details": "Exceção: 'Memory' object has no attribute 'add_to_short_term'",
+      "execution_time": 1.0967254638671875e-05,
+      "timestamp": "2025-06-26T19:04:07.627219"
+    },
+    {
+      "test_name": "Núcleo de Raciocínio",
+      "success": true,
+      "details": "Raciocínio funcionando",
+      "execution_time": 0.000118255615234375,
+      "timestamp": "2025-06-26T19:04:07.627370"
+    },
+    {
+      "test_name": "Cenário Complexo",
+      "success": true,
+      "details": "Todos os passos executados",
+      "execution_time": 1.005086898803711,
+      "timestamp": "2025-06-26T19:04:08.632497"
+    }
+  ]
+}
